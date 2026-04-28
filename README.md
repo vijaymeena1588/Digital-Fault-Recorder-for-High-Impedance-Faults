@@ -1,28 +1,40 @@
 # Digital Fault Recorder for High Impedance Faults
 
-An **Arduino-based Digital Fault Recorder (DFR)** system for monitoring 230V AC power lines and detecting **high-impedance faults (HIFs)** using hardware and machine learning.
+An **Arduino-based Digital Fault Recorder (DFR)** for detecting **High Impedance Arcing Faults (HIAF)** through spectral analysis and real-time signal monitoring. The system combines low-cost hardware with advanced signal processing to identify non-linear arcing signatures in power systems.
+
+---
 
 ## Overview
 
-This project integrates hardware and software to monitor electrical waveforms, extract key features, and classify subtle faults that traditional systems might miss. It enhances **power system reliability and safety** by providing real-time alerts and fault detection.
+This project integrates custom-built hardware and a Python-based analysis engine to:
 
-## Features
+- Acquire conditioned voltage waveforms at **20 kHz sampling**
+- Perform **FFT + Power Spectral Density (PSD)** analysis
+- Detect characteristic HIF signatures such as:
+  - Fundamental power collapse (>30%)
+  - Rise in odd-order harmonics (3rd, 5th)
+  - Elevated broadband noise (200–500 Hz band)
+- Generate real-time fault alerts
 
-- **Hardware System:** Arduino-based DFR with voltage sensors for 230V AC waveform acquisition.  
-- **Signal Processing:** RMS calculation, harmonic monitoring at 2 kHz, and feature extraction.  
-- **Display & Alerts:** OLED display shows live voltage and RMS values, with alert logic for abnormal arcing.  
-- **Machine Learning:** Classifies extracted features to detect subtle high-impedance faults.  
+The setup was experimentally validated under **10–30 kV laboratory conditions** using a tree-leaning fault model.
 
-## Hardware Requirements
+---
 
-- Arduino Uno or compatible board  
-- Voltage sensors (for 230V AC measurement)  
-- OLED display  
-- Signal conditioning circuitry  
-- Connecting wires and breadboard/PCB  
+## Key Features
 
-## Software Requirements
+- **Low-Cost Hardware (< INR 800):**  
+  Arduino-based DFR with signal conditioning for safe waveform acquisition.
 
-- Arduino IDE  
-- Python (for ML model training and testing)  
-- Required Python libraries: `numpy`, `pandas`, `scikit-learn`, `matplotlib`  
+- **High-Resolution Sampling:**  
+  20 kHz sampling frequency for capturing arc-induced high-frequency components.
+
+- **Spectral Fault Detection Logic:**  
+  - 3rd harmonic (150 Hz) PSD > 5%  
+  - 5th harmonic (250 Hz) PSD > 3%  
+  - 200–500 Hz broadband energy > 2.5%  
+  - Fundamental energy collapse > 30%
+
+- **Automated Python Analysis Engine:**  
+  Real-time FFT, PSD computation, harmonic tracking, and alert generation.
+
+- **Live Monitoring Output Example:**
